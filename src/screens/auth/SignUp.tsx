@@ -1,15 +1,18 @@
-// src/screens/SignupScreen.tsx
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Alert } from 'react-native';
 import { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '~/types/navigation';
 
-export default function SignUpScreen({ navigation }) {
+export default function SignUp({ navigation }: NativeStackScreenProps<AuthStackParamList, "SignUp">) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignup = async () => {
     const { error } = await supabase.auth.signUp({ email, password });
-    if (error) alert(error.message);
+    if (error) {
+      Alert.alert(error.message)
+    }
     else alert("Check your email to confirm your account!");
   };
 
