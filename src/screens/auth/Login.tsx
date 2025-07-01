@@ -82,7 +82,8 @@ export default function Login({ navigation }: NativeStackScreenProps<AuthStackPa
                 }}
               >
                 <Text
-                  className='ml-[5px] font-bold text-[12px]'
+                  size='md'
+                  className='ml-[5px] font-bold'
                 >
                   Register here
                 </Text>
@@ -96,16 +97,14 @@ export default function Login({ navigation }: NativeStackScreenProps<AuthStackPa
                   navigation.navigate("ForgotPassword");
                 }}
               >
-                <Text className='text-[12px] font-bold'>
+                <Text size='md' className='font-bold'>
                   Forget password
                 </Text>
               </TouchableOpacity>
             </View>
-
           </View>
         </ScrollView>
       </Layout>
-
     </KeyboardAvoidingView>
   );
 }

@@ -3,3 +3,8 @@ export type AuthStackParamList = {
 	SignUp: undefined;
 	ForgotPassword: undefined;
 }
+
+export type MainStackParamList = {
+	MainTabs: undefined;
+	SecondScreen: undefined;
+};

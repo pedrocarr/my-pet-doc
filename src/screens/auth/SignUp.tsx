@@ -1,40 +1,118 @@
-import { View, TextInput, Text, TouchableOpacity, Alert } from 'react-native';
-import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '~/types/navigation';
+import { useState } from "react";
+import {
+  ScrollView,
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView,
+  Image,
+} from "react-native";
+import { supabase } from "../../lib/supabase";
+import { AuthStackParamList } from "../../types/navigation";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {
+  Layout,
+  Text,
+  TextInput,
+  Button,
+} from "react-native-rapi-ui";
 
-export default function SignUp({ navigation }: NativeStackScreenProps<AuthStackParamList, "SignUp">) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function SignUp ({
+  navigation,
+}: NativeStackScreenProps<AuthStackParamList, "SignUp">) {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSignup = async () => {
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      Alert.alert(error.message)
+  async function signUp() {
+    setLoading(true);
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+    if (!error && data.user) {
+      setLoading(false);
+      alert("Check your email for the login link!");
     }
-    else alert("Check your email to confirm your account!");
-  };
-
+    if (error) {
+      setLoading(false);
+      alert(error.message);
+    }
+  }
   return (
-    <View className="flex-1 justify-center p-6">
-      <Text className="text-2xl font-bold mb-4">Sign Up</Text>
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        className="border p-2 rounded mb-4"
-      />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        className="border p-2 rounded mb-4"
-      />
-      <TouchableOpacity onPress={handleSignup} className="bg-green-500 p-3 rounded">
-        <Text className="text-white text-center font-semibold">Sign Up</Text>
-      </TouchableOpacity>
-    </View>
+    <KeyboardAvoidingView behavior="height" enabled className="flex-1">
+      <Layout>
+        <ScrollView
+          className="flex-grow"
+        >
+          <View
+            className="flex-1 justify-center items-center bg-white"
+          >
+            <Image
+              resizeMode="contain"
+              className="w-[220px] h-[220px]"
+              source={require("../../../assets/register.png")}
+            />
+          </View>
+          <View
+            className="flex-3 px-[20px] pb-[20px] bg-white"
+          >
+            <Text
+              size="h3"
+              className="self-center p-[30px] font-bold"
+            >
+              Register
+            </Text>
+            <Text>Email</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter your email"
+              value={email}
+              autoCapitalize="none"
+              autoComplete="off"
+              autoCorrect={false}
+              keyboardType="email-address"
+              onChangeText={(text) => setEmail(text)}
+            />
+
+            <Text className="mt-[15px]">Password</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter your password"
+              value={password}
+              autoCapitalize="none"
+              autoComplete="off"
+              autoCorrect={false}
+              secureTextEntry={true}
+              onChangeText={(text) => setPassword(text)}
+            />
+            <Button
+              text={loading ? "Loading" : "Create an account"}
+              onPress={() => {
+                signUp();
+              }}
+              className="mt-[20px]"
+              disabled={loading}
+            />
+            <View
+              className="flex-row items-center mt-[15px] justify-center"
+            >
+              <Text size="md">Already have an account?</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Login");
+                }}
+              >
+                <Text
+                  size="md"
+                  className="ml-[5px] font-bold"
+                >
+                  Login here
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </Layout>
+    </KeyboardAvoidingView>
   );
 }

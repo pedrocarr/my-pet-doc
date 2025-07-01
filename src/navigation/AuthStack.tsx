@@ -3,6 +3,7 @@ import { AuthStackParamList } from "../types/navigation"
 
 import Login from '../screens/auth/Login';
 import SignUp from "~/screens/auth/SignUp";
+import ForgotPassword from "~/screens/auth/ForgotPassword";
 
 
 
@@ -13,6 +14,7 @@ export default function Auth() {
       <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="Login" component={Login} />
         <AuthStack.Screen name="SignUp" component={SignUp} />
+        <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
       </AuthStack.Navigator>
   )
 }

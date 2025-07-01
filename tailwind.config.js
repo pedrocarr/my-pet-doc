@@ -1,3 +1,5 @@
+import { platformSelect } from "nativewind/theme";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -11,7 +13,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        mono: ['SpaceMono']
+        example: ['SpaceMono-Regular'],
+        system: platformSelect({
+          android: "SpaceMono-Regular"
+        })
       }
     },
   },

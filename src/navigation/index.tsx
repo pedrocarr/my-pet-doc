@@ -14,8 +14,8 @@ export default () => {
 
   return (
     <NavigationContainer>
-      {/* {<Loading/>} */}
-      {<Auth/>}
+      {user === null && <Loading />}
+			{user === true && <Auth />}
     </NavigationContainer>
   )
 }
